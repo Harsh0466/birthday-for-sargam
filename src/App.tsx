@@ -77,7 +77,7 @@ const BACKGROUND_FADE_START = Math.max(
 );
 
 const TYPED_LINES = [
-  "> tina",
+  "> sargam darlingg",
   "...",
   "> today is your birthday",
   "...",
@@ -514,66 +514,70 @@ export default function App() {
   const isScenePlaying = hasStarted && sceneStarted;
 
   return (
-    <div className="App">
-      <div
-        className="background-overlay"
-        style={{ opacity: backgroundOpacity }}
-      >
-        <div className="typed-text">
-          {typedLines.map((line, index) => {
-            const showCursor =
-              cursorVisible &&
-              index === cursorTargetIndex &&
-              (!typingComplete || !sceneStarted);
-            return (
-              <span className="typed-line" key={`typed-line-${index}`}>
-                {line || "\u00a0"}
-                {showCursor && (
-                  <span aria-hidden="true" className="typed-cursor">
-                    _
-                  </span>
-                )}
-              </span>
-            );
-          })}
-        </div>
+  <div className="App">
+    <div
+      className="background-overlay"
+      style={{ opacity: backgroundOpacity }}
+    >
+      <div className="typed-text">
+        {typedLines.map((line, index) => {
+          const showCursor =
+            cursorVisible &&
+            index === cursorTargetIndex &&
+            (!typingComplete || !sceneStarted);
+          return (
+            <span className="typed-line" key={`typed-line-${index}`}>
+              {line || "\u00a0"}
+              {showCursor && (
+                <span aria-hidden="true" className="typed-cursor">
+                  _
+                </span>
+              )}
+            </span>
+          );
+        })}
       </div>
-      {hasAnimationCompleted && isCandleLit && (
-        <div className="hint-overlay">press space to blow out the candle</div>
-      )}
-      <Canvas
-        gl={{ alpha: true }}
-        style={{ background: "transparent" }}
-        onCreated={({ gl }) => {
-          gl.setClearColor("#000000", 0);
-        }}
-      >
-        <Suspense fallback={null}>
-          <AnimatedScene
-            isPlaying={isScenePlaying}
-            candleLit={isCandleLit}
-            onBackgroundFadeChange={setBackgroundOpacity}
-            onEnvironmentProgressChange={setEnvironmentProgress}
-            onAnimationComplete={() => setHasAnimationCompleted(true)}
-            cards={BIRTHDAY_CARDS}
-            activeCardId={activeCardId}
-            onToggleCard={handleCardToggle}
-          />
-          <ambientLight intensity={(1 - environmentProgress) * 0.8} />
-          <directionalLight intensity={0.5} position={[2, 10, 0]} color={[1, 0.9, 0.95]}/>
-          <Environment
-            files={["/shanghai_bund_4k.hdr"]}
-            backgroundRotation={[0, 3.3, 0]}
-            environmentRotation={[0, 3.3, 0]}
-            background
-            environmentIntensity={0.1 * environmentProgress}
-            backgroundIntensity={0.05 * environmentProgress}
-          />
-          <EnvironmentBackgroundController intensity={0.05 * environmentProgress} />
-          <Fireworks isActive={fireworksActive} origin={[0, 10, 0]} />
-          <ConfiguredOrbitControls />
-        </Suspense>
-      </Canvas>
     </div>
-  );
+    {hasAnimationCompleted && isCandleLit && (
+      <div className="hint-overlay">press space to blow out the candle</div>
+    )}
+    <Canvas
+      gl={{ alpha: true }}
+      style={{ background: "transparent" }}
+      onCreated={({ gl }) => {
+        gl.setClearColor("#000000", 0);
+      }}
+    >
+      <Suspense fallback={null}>
+        <AnimatedScene
+          isPlaying={isScenePlaying}
+          candleLit={isCandleLit}
+          onBackgroundFadeChange={setBackgroundOpacity}
+          onEnvironmentProgressChange={setEnvironmentProgress}
+          onAnimationComplete={() => setHasAnimationCompleted(true)}
+          cards={BIRTHDAY_CARDS}
+          activeCardId={activeCardId}
+          onToggleCard={handleCardToggle}
+        />
+        <ambientLight intensity={(1 - environmentProgress) * 0.8} />
+        <directionalLight
+          intensity={0.5}
+          position={[2, 10, 0]}
+          color={[1, 0.9, 0.95]}
+        />
+        <Environment
+          files={["/shanghai_bund_4k.hdr"]}
+          backgroundRotation={[0, 3.3, 0]}
+          environmentRotation={[0, 3.3, 0]}
+          background
+          environmentIntensity={0.1 * environmentProgress}
+          backgroundIntensity={0.05 * environmentProgress}
+        />
+        <EnvironmentBackgroundController intensity={0.05 * environmentProgress} />
+        <Fireworks isActive={fireworksActive} origin={[0, 10, 0]} />
+        <ConfiguredOrbitControls />
+      </Suspense>
+    </Canvas>
+  </div>
+);
 }
