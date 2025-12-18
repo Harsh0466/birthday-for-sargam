@@ -99,7 +99,7 @@ type BirthdayCardConfig = {
 const BIRTHDAY_CARDS: ReadonlyArray<BirthdayCardConfig> = [
   {
     id: "confetti",
-    image: "/card.png",
+    image: import.meta.env.BASE_URL + "/card.png",
     position: [1, 0.081, -2],
     rotation: [-Math.PI / 2 , 0, Math.PI / 3],
   }
@@ -266,25 +266,25 @@ function AnimatedScene({
       <group ref={tableGroup}>
         <Table />
         <PictureFrame
-          image="/frame2.jpg"
+          image={import.meta.env.BASE_URL + "frame2.jpg"}
           position={[0, 0.735, 3]}
           rotation={[0, 5.6, 0]}
           scale={0.75}
         />
         <PictureFrame
-          image="/frame3.jpg"
+          image={import.meta.env.BASE_URL + "frame3.jpg"}
           position={[0, 0.735, -3]}
           rotation={[0, 4.0, 0]}
           scale={0.75}
         />
         <PictureFrame
-          image="/frame4.jpg"
+          image={import.meta.env.BASE_URL + "frame4.jpg"}
           position={[-1.5, 0.735, 2.5]}
           rotation={[0, 5.4, 0]}
           scale={0.75}
         />
         <PictureFrame
-          image="/frame1.jpg"
+          image={import.meta.env.BASE_URL + "frame1.jpg"}
           position={[-1.5, 0.735, -2.5]}
           rotation={[0, 4.2, 0]}
           scale={0.75}
@@ -381,7 +381,7 @@ export default function App() {
   const backgroundAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio("/music.mp3");
+    const audio = new Audio(import.meta.env.BASE_URL + "/music.mp3");
     audio.loop = true;
     audio.preload = "auto";
     backgroundAudioRef.current = audio;
@@ -487,26 +487,39 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code !== "Space" && event.key !== " ") {
-        return;
-      }
-      event.preventDefault();
-      if (!hasStarted) {
-        playBackgroundMusic();
-        setHasStarted(true);
-        return;
-      }
-      if (hasAnimationCompleted && isCandleLit) {
-        setIsCandleLit(false);
-        setFireworksActive(true);
-      }
-    };
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.code !== "Space" && event.key !== " ") {
+      return;
+    }
+    event.preventDefault();
+    if (!hasStarted) {
+      playBackgroundMusic();
+      setHasStarted(true);
+      return;
+    }
+    if (hasAnimationCompleted && isCandleLit) {
+      setIsCandleLit(false);
+      setFireworksActive(true);
+    }
+  };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [hasStarted, hasAnimationCompleted, isCandleLit, playBackgroundMusic]);
+  const handleInteraction = () => {
+    if (!hasStarted) {
+      playBackgroundMusic();
+      setHasStarted(true);
+    }
+  };
 
+  window.addEventListener("keydown", handleKeyDown);
+  window.addEventListener("touchstart", handleInteraction);
+  window.addEventListener("click", handleInteraction);
+
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown);
+    window.removeEventListener("touchstart", handleInteraction);
+    window.removeEventListener("click", handleInteraction);
+  };
+}, [hasStarted, hasAnimationCompleted, isCandleLit, playBackgroundMusic]);
   const handleCardToggle = useCallback((id: string) => {
     setActiveCardId((current) => (current === id ? null : id));
   }, []);
@@ -566,7 +579,7 @@ export default function App() {
           color={[1, 0.9, 0.95]}
         />
         <Environment
-          files={["/shanghai_bund_4k.hdr"]}
+          files={[import.meta.env.BASE_URL + "shanghai_bund_4k.hdr"]}
           backgroundRotation={[0, 3.3, 0]}
           environmentRotation={[0, 3.3, 0]}
           background

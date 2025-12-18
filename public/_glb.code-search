@@ -1,0 +1,24 @@
+# Query: .glb
+# ContextLines: 1
+
+4 results - 4 files
+
+birthday-cake-from-crush/src/models/cake.tsx:
+   9  export function Cake({ children, ...groupProps }: CakeProps) {
+  10:   const gltf = useLoader(GLTFLoader, import.meta.env.BASE_URL +  "cake.glb");
+  11    const cakeScene = useMemo<Group | null>(() => gltf.scene?.clone(true) ?? null, [gltf.scene]);
+
+birthday-cake-from-crush/src/models/candle.tsx:
+  85  export function Candle({ children, isLit = true, ...groupProps }: CandleProps) {
+  86:   const gltf = useLoader(GLTFLoader, import.meta.env.BASE_URL + "candle.glb");
+  87    const candleScene = useMemo<Group | null>(() => gltf.scene?.clone(true) ?? null, [gltf.scene]);
+
+birthday-cake-from-crush/src/models/pictureFrame.tsx:
+  32    const { gl } = useThree();
+  33:   const gltf = useLoader(GLTFLoader, import.meta.env.BASE_URL + "picture_frame.glb");
+  34    const pictureTexture = useTexture(image);
+
+birthday-cake-from-crush/src/models/table.tsx:
+   9  export function Table({ children, ...groupProps }: TableProps) {
+  10:   const gltf = useLoader(GLTFLoader, import.meta.env.BASE_URL + "table.glb");
+  11    const tableScene = useMemo<Group | null>(() => gltf.scene?.clone(true) ?? null, [gltf.scene]);

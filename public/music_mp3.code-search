@@ -1,0 +1,9 @@
+# Query: music.mp3
+# ContextLines: 1
+
+1 result - 1 file
+
+birthday-cake-from-crush/src/App.tsx:
+  383    useEffect(() => {
+  384:     const audio = new Audio(import.meta.env.BASE_URL + "music.mp3");
+  385      audio.loop = true;
